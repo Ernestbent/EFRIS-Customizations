@@ -122,13 +122,21 @@ app_license = "mit"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	"Property":{
+        "on_submit":"efris.efris.doctype.property.events.on_submit"
+    },
+    "Sales Invoice":{
+        "on_submit":"efris.efris.custom_scripts.event.on_send"
+    },
+    "Purchase Invoice":{
+        "on_submit":"efris.efris.custom_scripts.stock_in.on_submit"
+    },
+    "Item":{
+        "validate":"efris.efris.custom_scripts.item_add.on_save"
+    }
+    
+}
 
 # Scheduled Tasks
 # ---------------
@@ -227,3 +235,4 @@ app_license = "mit"
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
 
+fixtures = ["Item Tax Template"]
