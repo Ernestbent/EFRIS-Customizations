@@ -426,7 +426,7 @@ def on_send(doc, event):
 
             # Parse the JSON response content.
             response_data = json.loads(response.text)
-            json_response= json.dumps(response_data)
+            json_response= json.dumps(response_data, indent=4)
 
             ##########
             doc.custom_response = json_response
@@ -463,9 +463,6 @@ def on_send(doc, event):
                 doc.custom_qr_code = data.get("summary", {}).get("qrCode")
                 doc.custom_invoice_number = data.get("basicInformation", {}).get("invoiceId")
 
-                # Save the document to persist the changes
-
-                # Save the document to persist the changes
 
                 # Check if qr_data is not None and not an empty string.
 
