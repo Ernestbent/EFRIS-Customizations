@@ -134,6 +134,9 @@ doc_events = {
     },
     "Item":{
         "validate":"efris.efris.custom_scripts.item_add.on_save"
+    },
+    "Stock Entry":{
+        "on_submit":"efris.efris.custom_scripts.stock_adjustment.stock_adjust"
     }
     
 }
