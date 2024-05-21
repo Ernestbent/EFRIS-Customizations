@@ -108,7 +108,7 @@ def on_save(doc, method):
         ###print json data to post
         print(f"Request Data: {json.dumps(data_to_post, indent=4)}")
 
-        doc.custom_post_requestefris = data_to_post
+        doc.custom_post_requestefris = {json.dumps(data_to_post, indent=4)}
 
         # Make a POST request to the external API
         api_url = doc.custom_offline_enabler  # Replace with your actual endpoint
@@ -126,7 +126,8 @@ def on_save(doc, method):
         print(f"Response Content: {response.text}")
 
         response_data = json.loads(response.text)
-        doc.custom_ura_responseefris = response_data
+        json_response= json.dumps(response_data)
+        doc.custom_ura_responseefris = json_response
         # Access the value of "returnMessage"
         return_message = response_data["returnStateInfo"]["returnMessage"]
 
