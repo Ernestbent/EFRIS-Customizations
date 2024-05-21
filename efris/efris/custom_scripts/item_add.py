@@ -108,23 +108,31 @@ def on_save(doc, method):
         ###print json data to post
         print(f"Request Data: {json.dumps(data_to_post, indent=4)}")
 
+        doc.custom_post_requestefris = data_to_post
+
         # Make a POST request to the external API
         api_url = doc.custom_offline_enabler  # Replace with your actual endpoint
         response = requests.post(api_url, json=data_to_post)
+
+        
         response.raise_for_status()  # Raise an HTTPError for bad responses.
 
         # Parse the JSON response content.
         response_data = json.loads(response.text)
+        
 
         # Print the response status code and content.
         print(f"Response Status Code: {response.status_code}")
         print(f"Response Content: {response.text}")
-   
-        response_data = json.loads(response.text)
 
+        response_data = json.loads(response.text)
+        doc.custom_ura_responseefris = response_data
         # Access the value of "returnMessage"
         return_message = response_data["returnStateInfo"]["returnMessage"]
+
+        doc.custom_return_status = return_message
         if response.status_code == 200 and return_message == "SUCCESS":
+
             frappe.msgprint("Item successfully added to EFIRS URA.")
         else:
             frappe.throw(

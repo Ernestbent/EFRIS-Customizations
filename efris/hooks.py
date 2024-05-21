@@ -130,7 +130,7 @@ doc_events = {
         "on_submit":"efris.efris.custom_scripts.event.on_send"
     },
     "Purchase Invoice":{
-        "on_submit":"efris.efris.custom_scripts.stock_in.on_submit"
+        "on_submit":"efris.efris.custom_scripts.stock_in.on_stock"
     },
     "Item":{
         "validate":"efris.efris.custom_scripts.item_add.on_save"

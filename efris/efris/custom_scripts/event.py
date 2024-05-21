@@ -45,7 +45,7 @@ random_8_digits = generate_random_8_digits()
 # Hooking into the on-submit controller
 def on_send(doc, event):
     if not doc.custom_efris_invoice:
-        # If the checkbox is not checked, skip the rest of the function
+        
         return
     # Example values from variables
     date_str = doc.posting_date  # Assuming doc.posting_date holds the date string
@@ -412,17 +412,27 @@ def on_send(doc, event):
             }
             #print Json Data
             print(f"Request Data: {json.dumps(data_to_post, indent=4)}")
+            ###assign request in sales invoice
+            doc.custom_post_request = {json.dumps(data_to_post, indent=4)}
+
             # Make a POST request to the external API.
             api_url = doc.custom_efris_offline_enabler_url
             headers = {"Content-Type": "application/json"}
 
             response = requests.post(api_url, json=data_to_post)
+            ####response 
+            
             response.raise_for_status()
 
             # Parse the JSON response content.
             response_data = json.loads(response.text)
-            return_message = response_data["returnStateInfo"]["returnMessage"]
+            json_response= json.dumps(response_data)
 
+            ##########
+            doc.custom_response = json_response
+
+            return_message = response_data["returnStateInfo"]["returnMessage"]
+            doc.custom_return_status = return_message
             # Handle the response status code
             if response.status_code == 200 and return_message == "SUCCESS":
                 frappe.msgprint("Sales Invoice successfully submitted to EFIRS URA.")
@@ -519,7 +529,7 @@ def on_send(doc, event):
                 "buyerLegalName": doc.customer,
                 "buyerBusinessName": doc.customer,
                 "buyerAddress": "",
-                "buyerEmail": doc.email_address,
+                "buyerEmail": doc.custom_email_id,
                 "buyerMobilePhone": "",
                 "buyerLinePhone": "",
                 "buyerPlaceOfBusi": "",
@@ -571,7 +581,7 @@ def on_send(doc, event):
                     "userName": "admin",
                     "deviceMAC": "B47720524158",
                     "deviceNo": doc.custom_device_number,
-                    "tin": doc.custom_company_tax_id,
+                    "tin": doc.company_tax_id,
                     "brn": "",
                     "taxpayerID": "1",
                     "longitude": "32.61665",
